@@ -1,0 +1,257 @@
+:root {
+  --cor-fundo: #15131c;
+  --cor-superficie: #1f1c2b;
+  --cor-superficie-clara: #2a2638;
+  --cor-texto: #f1eef9;
+  --cor-texto-fraco: #b3acc9;
+  --cor-acento: #c792ea;
+  --cor-acento-escuro: #9d6fc2;
+  --cor-erro: #ff7a8a;
+  --cor-sucesso: #7ee2a8;
+  --raio: 10px;
+  --fonte: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-superficie-clara);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--cor-acento);
+  letter-spacing: 0.03em;
+}
+
+nav {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--cor-texto-fraco);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.15s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  color: var(--cor-acento);
+}
+
+.conteudo-central {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero p {
+  color: var(--cor-texto-fraco);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.cabecalho-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.caixa-formulario {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  padding: 2rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.caixa-formulario h2 {
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+}
+
+input,
+select {
+  background-color: var(--cor-superficie-clara);
+  border: 1px solid transparent;
+  border-radius: var(--raio);
+  padding: 0.65rem 0.8rem;
+  color: var(--cor-texto);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--cor-acento);
+}
+
+.botao {
+  display: inline-block;
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: var(--raio);
+  background-color: var(--cor-acento);
+  color: #1a1726;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.15s ease;
+}
+
+.botao:hover,
+.botao:focus-visible {
+  background-color: var(--cor-acento-escuro);
+}
+
+.botao-secundario {
+  background-color: transparent;
+  color: var(--cor-texto-fraco);
+  border: 1px solid var(--cor-superficie-clara);
+  margin-left: 0.75rem;
+}
+
+.botao-perigo {
+  background-color: transparent;
+  color: var(--cor-erro);
+  border: 1px solid var(--cor-erro);
+}
+
+.botao-perigo:hover,
+.botao-perigo:focus-visible {
+  background-color: var(--cor-erro);
+  color: #1a1726;
+}
+
+.erro {
+  color: var(--cor-erro);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+.sucesso {
+  color: var(--cor-sucesso);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+.link-secundario {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+}
+
+.link-secundario a {
+  color: var(--cor-acento);
+}
+
+.grade-musicas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.card-musica {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-musica img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--raio);
+  margin-bottom: 0.75rem;
+}
+
+.card-musica h3 {
+  margin: 0 0 0.4rem 0;
+}
+
+.card-musica p {
+  margin: 0.15rem 0;
+  color: var(--cor-texto-fraco);
+  font-size: 0.9rem;
+}
+
+.acoes-card {
+  margin-top: auto;
+  display: flex;
+  gap: 0.6rem;
+  padding-top: 1rem;
+}
+
+.acoes-card .botao {
+  margin-top: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.foto-perfil {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

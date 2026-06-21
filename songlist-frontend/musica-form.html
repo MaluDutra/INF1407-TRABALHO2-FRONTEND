@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Música - Songlist</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1 class="logo">Songlist</h1>
+    <nav id="nav"></nav>
+  </header>
+
+  <main class="conteudo-central">
+    <section class="caixa-formulario">
+      <h2 id="titulo-pagina">Adicionar música</h2>
+      <form id="form-musica">
+        <label for="titulo">Título *</label>
+        <input type="text" id="titulo" name="titulo" required />
+
+        <label for="artista">Artista *</label>
+        <input type="text" id="artista" name="artista" required />
+
+        <label for="album">Álbum</label>
+        <input type="text" id="album" name="album" />
+
+        <label for="genero">Gênero</label>
+        <input type="text" id="genero" name="genero" />
+
+        <label for="ano">Ano de lançamento</label>
+        <input type="number" id="ano" name="ano" min="1900" max="2100" />
+
+        <label for="imagem-url">URL da imagem (capa)</label>
+        <input type="url" id="imagem-url" name="imagem-url" />
+
+        <label for="link">Link para ouvir</label>
+        <input type="url" id="link" name="link" />
+
+        <p id="mensagem-erro" class="erro"></p>
+
+        <button type="submit" class="botao">Salvar</button>
+        <a href="musicas.html" class="botao botao-secundario">Cancelar</a>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="dist/musica-form.js"></script>
+</body>
+</html>
