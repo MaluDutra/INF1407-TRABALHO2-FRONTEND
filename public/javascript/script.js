@@ -16,6 +16,7 @@ onload = async function () {
 async function configuraBotoesAutenticacao() {
     const divAcoes = document.getElementById('acoesAutenticadas');
     const colunaRemove = document.getElementById('colunaRemove');
+    const colunaAtualiza = document.getElementById('colunaAtualiza');
     const mensagemAcesso = document.getElementById('mensagemAcesso');
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
@@ -27,6 +28,8 @@ async function configuraBotoesAutenticacao() {
         divAcoes.classList.add('visivel');
         colunaRemove.classList.remove('invisivel');
         colunaRemove.classList.add('visivel');
+        colunaAtualiza.classList.remove('invisivel');
+        colunaAtualiza.classList.add('visivel');
         mensagemAcesso.classList.remove('visivel');
         mensagemAcesso.classList.add('invisivel');
         document.getElementById('insere').addEventListener('click', () => {
@@ -39,6 +42,8 @@ async function configuraBotoesAutenticacao() {
         divAcoes.classList.add('invisivel');
         colunaRemove.classList.remove('visivel');
         colunaRemove.classList.add('invisivel');
+        colunaAtualiza.classList.remove('visivel');
+        colunaAtualiza.classList.add('invisivel');
         mensagemAcesso.classList.remove('invisivel');
         mensagemAcesso.classList.add('visivel');
     }
@@ -69,26 +74,31 @@ async function exibeListaDeMusicas() {
             const tr = document.createElement('tr');
             campos.forEach(campo => {
                 const td = document.createElement('td');
-                if (estaAutenticado) {
-                    const href = document.createElement('a');
-                    href.href = getBasePath() + 'update.html?id=' + musica['id'];
-                    href.textContent = musica[campo];
-                    td.appendChild(href);
-                }
-                else {
-                    td.textContent = musica[campo];
-                }
+                td.textContent = musica[campo];
                 tr.appendChild(td);
             });
-            const tdCheck = document.createElement('td');
             if (estaAutenticado) {
+                const tdUpdate = document.createElement('td');
+                const botao = document.createElement('button');
+                botao.type = 'button';
+                const img = document.createElement('img');
+                img.src = 'img/atualiza.png';
+                img.alt = 'Atualizar';
+                botao.appendChild(img);
+                botao.classList.add('btnAtualizar');
+                botao.addEventListener('click', () => {
+                    location.href = getBasePath() + 'update.html?id=' + musica['id'];
+                });
+                tdUpdate.appendChild(botao);
+                tr.appendChild(tdUpdate);
+                const tdCheck = document.createElement('td');
                 const checkbox = document.createElement('input');
                 checkbox.setAttribute('type', 'checkbox');
                 checkbox.setAttribute('name', 'id');
                 checkbox.setAttribute('value', musica['id']);
                 tdCheck.appendChild(checkbox);
+                tr.appendChild(tdCheck);
             }
-            tr.appendChild(tdCheck);
             tbody.appendChild(tr);
         });
     }

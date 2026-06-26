@@ -5,22 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="javascript/cabecalho.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/cabecalho.css">
 </head>
 
 <body>
-    <a href="index.html" target="_top" class="btn btn-primary">Home</a>
-    <div id="unlogged" class="visivel">
-        <a href="./accounts/login.html" target="_top" class="btn btn-success">Login</a>
-    </div>
-    <div id="logged" class="invisivel">
-        <a href="./accounts/passwordChange.html" target="_top" class="btn btn-warning">Troca senha</a>
-        <a href="#" target="_top" class="btn btn-danger" id="logout">Logout</a>
-    </div>
-    Você é <div id="identificacao" class="mesmaLinha">visitante!</div>
-    <hr>
+    <nav class="navbar">
+        <div class="nav-section nav-left">
+            <a href="index.html" target="_top" class="brand">
+                <span class="brand-icon">♪</span>
+                <span class="brand-name">SongList</span>
+            </a>
+            <a href="index.html" target="_top" class="nav-link">Home</a>
+        </div>
+
+        <div class="nav-section nav-right">
+            <span class="user-status">
+                Olá, <span id="identificacao">visitante!</span>
+            </span>
+
+            <div id="unlogged" class="visivel auth-actions">
+                <a href="./accounts/login.html" target="_top" class="btn btn-primary">Entrar</a>
+            </div>
+
+            <div id="logged" class="invisivel auth-actions">
+                <a href="./accounts/passwordChange.html" target="_top" class="btn btn-ghost">Trocar senha</a>
+                <a href="#" target="_top" class="btn btn-outline" id="logout">Sair</a>
+            </div>
+        </div>
+    </nav>
 </body>
 
 </html>

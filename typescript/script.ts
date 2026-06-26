@@ -18,6 +18,7 @@ onload = async function () {
 async function configuraBotoesAutenticacao() {
     const divAcoes = document.getElementById('acoesAutenticadas') as HTMLDivElement;
     const colunaRemove = document.getElementById('colunaRemove') as HTMLTableCellElement;
+    const colunaAtualiza = document.getElementById('colunaAtualiza') as HTMLTableCellElement;
     const mensagemAcesso = document.getElementById('mensagemAcesso') as HTMLParagraphElement;
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
@@ -30,6 +31,8 @@ async function configuraBotoesAutenticacao() {
         divAcoes.classList.add('visivel');
         colunaRemove.classList.remove('invisivel');
         colunaRemove.classList.add('visivel');
+        colunaAtualiza.classList.remove('invisivel');
+        colunaAtualiza.classList.add('visivel');
         mensagemAcesso.classList.remove('visivel');
         mensagemAcesso.classList.add('invisivel');
         (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => {
@@ -41,6 +44,8 @@ async function configuraBotoesAutenticacao() {
         divAcoes.classList.add('invisivel');
         colunaRemove.classList.remove('visivel');
         colunaRemove.classList.add('invisivel');
+        colunaAtualiza.classList.remove('visivel');
+        colunaAtualiza.classList.add('invisivel');
         mensagemAcesso.classList.remove('invisivel');
         mensagemAcesso.classList.add('visivel');
     }
@@ -78,28 +83,33 @@ async function exibeListaDeMusicas() {
 
             campos.forEach(campo => {
                 const td = document.createElement('td') as HTMLTableCellElement;
-
-                if (estaAutenticado) {
-                    const href = document.createElement('a') as HTMLAnchorElement;
-                    href.href = getBasePath() + 'update.html?id=' + musica['id'];
-                    href.textContent = musica[campo];
-                    td.appendChild(href);
-                } else {
-                    td.textContent = musica[campo];
-                }
-
+                td.textContent = musica[campo];
                 tr.appendChild(td);
             });
 
-            const tdCheck = document.createElement('td') as HTMLTableCellElement;
             if (estaAutenticado) {
+                const tdUpdate = document.createElement('td') as HTMLTableCellElement;
+                const botao = document.createElement('button') as HTMLButtonElement;
+                botao.type = 'button';
+                const img = document.createElement('img') as HTMLImageElement;
+                img.src = 'img/atualiza.png';
+                img.alt = 'Atualizar';
+                botao.appendChild(img);
+                botao.classList.add('btnAtualizar');
+                botao.addEventListener('click', () => {
+                    location.href = getBasePath() + 'update.html?id=' + musica['id'];
+                });
+                tdUpdate.appendChild(botao);
+                tr.appendChild(tdUpdate);
+
+                const tdCheck = document.createElement('td') as HTMLTableCellElement;
                 const checkbox = document.createElement('input') as HTMLInputElement;
                 checkbox.setAttribute('type', 'checkbox');
                 checkbox.setAttribute('name', 'id');
                 checkbox.setAttribute('value', musica['id']);
                 tdCheck.appendChild(checkbox);
+                tr.appendChild(tdCheck);
             }
-            tr.appendChild(tdCheck);
 
             tbody.appendChild(tr);
         });

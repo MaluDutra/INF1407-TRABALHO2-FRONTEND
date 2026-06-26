@@ -152,3 +152,30 @@ table tbody input[type="checkbox"] {
     font-weight: 600;
     text-align: center;
 }
+
+.btnAtualizar {
+    background-color: transparent;
+    border: none;
+    padding: 0.3rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnAtualizar img {
+    width: 22px;
+    height: 22px;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(82%) sepia(13%) saturate(1430%) hue-rotate(213deg) brightness(99%) contrast(95%);
+}
+
+.btnAtualizar:hover {
+    background-color: #20203a;
+}
+
+.btnAtualizar:active {
+    transform: scale(0.9);
+}
