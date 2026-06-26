@@ -89,7 +89,7 @@ onload = async () => {
             if (response.ok) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Música atualizada com sucesso!';
                 setTimeout(() => {
-                    window.location.href = '/public/';
+                    window.location.href = '/';
                 }, 1500);
             } else if (response.status === 401) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Acesso negado. Por favor, realize login antes.';

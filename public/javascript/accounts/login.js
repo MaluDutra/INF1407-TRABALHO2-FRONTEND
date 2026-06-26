@@ -15,7 +15,7 @@ onload = () => {
             // Armazena os tokens JWT no localStorage para uso nas próximas requisições
             localStorage.setItem("access_token", tokens.access);
             localStorage.setItem("refresh_token", tokens.refresh);
-            window.location.href = "/public/";
+            window.location.href = "/";
         }
         catch (err) {
             msg.textContent = "Usuário ou senha inválidos";
