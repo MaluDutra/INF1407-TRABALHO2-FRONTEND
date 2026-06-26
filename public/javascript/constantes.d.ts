@@ -1,4 +1,4 @@
-export declare const backendAddress = "https://psychic-space-eureka-px9rj7gx565f74j4-8000.app.github.dev/";
+export declare const backendAddress = "https://inf1407-backend.onrender.com/";
 /**
  * Base path para as rotas do site.
  * No GitHub Pages, é necessário incluir o nome do repositório (/INF1407-TRABALHO2-FRONTEND/)
