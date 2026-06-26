@@ -53,9 +53,14 @@ onload = async () => {
         }
         
         try {
+            // const token = localStorage.getItem('access_token');
+
             const response = await fetch(backendAddress + 'SongList/umamusica/' + id + '/', {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    // 'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify(data)
             });
             
