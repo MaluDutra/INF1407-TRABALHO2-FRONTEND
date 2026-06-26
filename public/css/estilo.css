@@ -98,6 +98,8 @@ table tbody input[type="checkbox"] {
     width: 16px;
     height: 16px;
     cursor: pointer;
+    display: block;
+    margin: 0 auto;
 }
 
 .invisivel {
@@ -163,6 +165,7 @@ table tbody input[type="checkbox"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease-in-out;
 }
 
 .btnAtualizar img {
@@ -173,7 +176,8 @@ table tbody input[type="checkbox"] {
 }
 
 .btnAtualizar:hover {
-    background-color: #20203a;
+    background-color: #20203a;    
+    transform: scale(1.1);
 }
 
 .btnAtualizar:active {
