@@ -36,14 +36,14 @@ const identifica = async () => {
         objDivlogged.classList.add('visivel');
         objDivunlogged.classList.remove('visivel');
         objDivunlogged.classList.add('invisivel');
-        spanElement.textContent = data.username ?? 'visitante';
+        spanElement.textContent = (data.username ?? 'visitante') + '!';
     } else {
         // token enviado no cabeçalho foi rejeitado pelo servidor
         objDivlogged.classList.remove('visivel');
         objDivlogged.classList.add('invisivel');
         objDivunlogged.classList.remove('invisivel');
         objDivunlogged.classList.add('visivel');
-        spanElement.textContent = 'visitante';
+        spanElement.textContent = 'visitante!';
     }
 };
 

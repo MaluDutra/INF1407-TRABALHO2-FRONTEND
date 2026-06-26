@@ -79,7 +79,7 @@ onload = async () => {
             if (response.ok) {
                 document.getElementById('mensagem').textContent = 'Música atualizada com sucesso!';
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = 'index.html';
                 }, 1500);
             }
             else if (response.status === 401) {

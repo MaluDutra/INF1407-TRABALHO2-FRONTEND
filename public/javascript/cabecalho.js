@@ -33,7 +33,7 @@ const identifica = async () => {
         objDivlogged.classList.add('visivel');
         objDivunlogged.classList.remove('visivel');
         objDivunlogged.classList.add('invisivel');
-        spanElement.textContent = (_a = data.username) !== null && _a !== void 0 ? _a : 'visitante';
+        spanElement.textContent = ((_a = data.username) !== null && _a !== void 0 ? _a : 'visitante') + '!';
     }
     else {
         // token enviado no cabeçalho foi rejeitado pelo servidor
@@ -41,7 +41,7 @@ const identifica = async () => {
         objDivlogged.classList.add('invisivel');
         objDivunlogged.classList.remove('invisivel');
         objDivunlogged.classList.add('visivel');
-        spanElement.textContent = 'visitante';
+        spanElement.textContent = 'visitante!';
     }
 };
 /**
