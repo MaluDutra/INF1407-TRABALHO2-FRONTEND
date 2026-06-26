@@ -17,8 +17,7 @@ const identifica = async () => {
     var _a;
     const spanElement = document.getElementById('identificacao');
     const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        'Content-Type': 'application/json'
     };
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
@@ -53,12 +52,6 @@ const logout = (evento) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    const homeUrl = getBasePath() + '?logout=' + Date.now();
-    if (window.top && window.top !== window) {
-        window.top.location.href = homeUrl;
-    }
-    else {
-        window.location.href = homeUrl;
-    }
+    window.top.location.href = getBasePath();
 };
 //# sourceMappingURL=cabecalho.js.map

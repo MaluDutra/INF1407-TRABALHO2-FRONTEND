@@ -17,8 +17,7 @@ addEventListener('load', async () => {
 const identifica = async () => {
     const spanElement = document.getElementById('identificacao') as HTMLSpanElement;
     const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        'Content-Type': 'application/json'
     };
 
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
@@ -57,10 +56,5 @@ const logout = (evento: MouseEvent) => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
 
-    const homeUrl = getBasePath() + '?logout=' + Date.now();
-    if (window.top && window.top !== window) {
-        window.top.location.href = homeUrl;
-    } else {
-        window.location.href = homeUrl;
-    }
+    window.top!.location.href = getBasePath();
 };

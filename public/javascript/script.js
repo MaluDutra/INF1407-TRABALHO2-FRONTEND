@@ -15,6 +15,8 @@ onload = async function () {
  */
 async function configuraBotoesAutenticacao() {
     const divAcoes = document.getElementById('acoesAutenticadas');
+    const colunaRemove = document.getElementById('colunaRemove');
+    const mensagemAcesso = document.getElementById('mensagemAcesso');
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -23,12 +25,22 @@ async function configuraBotoesAutenticacao() {
         // Exibe os controles de ação apenas para usuários autenticados
         divAcoes.classList.remove('invisivel');
         divAcoes.classList.add('visivel');
-        document.getElementById('colunaRemove').classList.remove('invisivel');
-        document.getElementById('colunaRemove').classList.add('visivel');
+        colunaRemove.classList.remove('invisivel');
+        colunaRemove.classList.add('visivel');
+        mensagemAcesso.classList.remove('visivel');
+        mensagemAcesso.classList.add('invisivel');
         document.getElementById('insere').addEventListener('click', () => {
             location.href = getBasePath() + 'insereMusica.html';
         });
         document.getElementById('remove').addEventListener('click', apagaMusicas);
+    }
+    else {
+        divAcoes.classList.remove('visivel');
+        divAcoes.classList.add('invisivel');
+        colunaRemove.classList.remove('visivel');
+        colunaRemove.classList.add('invisivel');
+        mensagemAcesso.classList.remove('invisivel');
+        mensagemAcesso.classList.add('visivel');
     }
 }
 /**
@@ -96,11 +108,10 @@ let apagaMusicas = async (evento) => {
         checkedValues.push(checkbox.value);
     });
     try {
-        const response = await fetch(backendAddress + 'SongList/variasmusicas/', {
+        const response = await authFetch(backendAddress + 'SongList/variasmusicas/', {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(checkedValues)
         });

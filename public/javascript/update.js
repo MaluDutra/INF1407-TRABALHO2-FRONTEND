@@ -68,11 +68,10 @@ onload = async () => {
             }
         }
         try {
-            const response = await fetch(backendAddress + 'SongList/umamusica/' + id + '/', {
+            const response = await authFetch(backendAddress + 'SongList/umamusica/' + id + '/', {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });

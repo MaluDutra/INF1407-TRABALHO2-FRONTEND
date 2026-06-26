@@ -29,11 +29,10 @@ onload = async () => {
             }
         }
         try {
-            const response = await fetch(backendAddress + 'SongList/criar/', {
+            const response = await authFetch(backendAddress + 'SongList/criar/', {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });

@@ -109,6 +109,10 @@ table tbody input[type="checkbox"] {
     gap: 0.75rem;
 }
 
+#acoesAutenticadas.invisivel {
+    display: none;
+}
+
 #acoesAutenticadas input[type="button"] {
     padding: 0.7rem 1.6rem;
     border: none;
@@ -140,4 +144,11 @@ table tbody input[type="checkbox"] {
 
 #acoesAutenticadas input[type="button"]:active {
     transform: scale(0.98);
+}
+
+#mensagemAcesso {
+    color: #ff7b7b;
+    margin-top: 0.7rem;
+    font-weight: 600;
+    text-align: center;
 }
