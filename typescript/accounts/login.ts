@@ -1,4 +1,5 @@
 import { backendAddress, type JwtResposta, getBasePath } from '../constantes.js';
+import './common.js';
 
 /**
  * Inicializa o formulário de login quando a página é carregada.

@@ -6,6 +6,10 @@ import { backendAddress } from '../constantes.js';
  * Para cada elemento com a classe `.password-container`, o script procura
  * um campo de senha e um ícone de alternância. Se ambos existirem, o ícone
  * passa a alternar entre `password` e `text` ao ser clicado.
+ *
+ * O caminho da imagem aberta é deduzido a partir do `src` inicial do ícone
+ * (substituindo "eye-off" por "eye-open"), permitindo que o helper funcione
+ * em qualquer pasta sem hardcode de caminho.
  */
 document.addEventListener("DOMContentLoaded", () => {
     // Para cada campo password, adiciona um ícone de olho para mostrar/ocultar a senha
@@ -17,14 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const objImgEye = container.querySelector<HTMLImageElement>(".toggle-password");
         // verifica se o container está bem formado, ou seja, se contém um campo de senha e um ícone de olho
         if (!objInput || !objImgEye) return; // container mal formado
+
+        const eyeOff = objImgEye.getAttribute('src') ?? '';
+        const eyeOpen = eyeOff.replace('eye-off', 'eye-open');
+
         // adiciona o event listener ao ícone de olho para alternar entre mostrar e ocultar a senha
         objImgEye.addEventListener("click", () => {
             if (objInput.type === "password") {
                 objInput.type = "text";
-                objImgEye.src = "img/eye.svg";
+                objImgEye.src = eyeOpen;
             } else {
                 objInput.type = "password";
-                objImgEye.src = "img/eye-off.svg";
+                objImgEye.src = eyeOff;
             }
         });
     });
@@ -38,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 const decodeJWT = (token: string): any => {
     const payload = token.split('.')[1];
-    
+
     // Se não existir payload (ex: passaram uma string sem pontos), aborta
     if (!payload) {
         throw new Error("Token JWT malformado ou inválido.");

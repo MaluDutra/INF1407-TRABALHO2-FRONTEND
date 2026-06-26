@@ -1,12 +1,12 @@
 import { backendAddress, getBasePath } from '../constantes.js';
+import './common.js';
 
 /**
  * Inicializa a página de redefinição de senha quando o carregamento é concluído.
- * Registra os eventos dos botões e configura a troca de visibilidade dos campos.
+ * A troca de visibilidade dos campos de senha é gerenciada automaticamente pelo
+ * helper definido em common.js, que reage à classe `.password-container`.
  */
 addEventListener("load", function () {
-    (document.getElementById('eyeIconNovaSenha') as HTMLImageElement).addEventListener('click', trocaOlho);
-    (document.getElementById('eyeIconConfirmarSenha') as HTMLImageElement).addEventListener('click', trocaOlho);
     (document.getElementById("enviaNovaSenha") as HTMLButtonElement).addEventListener("click", async function (evento) {
         evento.preventDefault();
 
@@ -46,22 +46,3 @@ addEventListener("load", function () {
         }
     });
 });
-
-/**
- * Alterna a visibilidade do campo de senha e atualiza o ícone de olho.
- *
- * @param evento Evento de clique no ícone de olho.
- */
-const trocaOlho = (evento: MouseEvent) => {
-    const target = evento.target as HTMLImageElement;
-    const inputId = target.id === 'eyeIconNovaSenha' ? 'novaSenha' : 'confirmarSenha';
-    const input = document.getElementById(inputId) as HTMLInputElement;
-
-    if (input.type === "password") {
-        input.type = "text";
-        target.src = "../img/eye-open.svg";
-    } else {
-        input.type = "password";
-        target.src = "../img/eye-off.svg";
-    }
-};
