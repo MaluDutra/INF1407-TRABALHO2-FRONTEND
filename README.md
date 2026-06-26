@@ -147,11 +147,11 @@ Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um cód
 
 ### Página inicial — visitante
 
-![Lista pública de músicas](docs/lista-visitante.png)
+![Lista pública de músicas](docs/visitante.png)
 
 ### Página inicial — usuário autenticado
 
-![Lista com ações de edição](docs/lista-logado.png)
+![Lista com ações de edição](docs/logado.png)
 
 ### Tela de login
 
