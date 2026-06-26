@@ -7,9 +7,13 @@ onload = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const idPlace = document.getElementById('id') as HTMLInputElement;
+    const idSpan = document.getElementById('id-span') as HTMLSpanElement | null;
 
     if (id) {
         idPlace.value = id;
+        if (idSpan) {
+            idSpan.textContent = id;
+        }
         try {
             const response = await fetch(backendAddress + 'SongList/umamusica/' + id + '/');
             
