@@ -11,3 +11,5 @@ Compilar com:
 $ tsc -w
 
 python3 -m http.server 8080
+
+seguir os slides da aula 14 - Web-Python - Backend Arquivo!!!!!!!!
