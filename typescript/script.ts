@@ -4,28 +4,42 @@ import { authFetch } from './accounts/common.js';
 
 /**
  * Inicializa a página assim que o carregamento do conteúdo é concluído.
- * Configura os botões de autenticação e carrega a lista de músicas.
+ * Descobre o usuário logado (se houver), configura os botões de
+ * autenticação e desenha a lista de músicas com base nessa identidade.
  */
 onload = async function () {
-    await configuraBotoesAutenticacao();
-    exibeListaDeMusicas();
+    const userId = await obtemIdDoUsuarioLogado();
+    configuraBotoesAutenticacao(userId !== null);
+    exibeListaDeMusicas(userId);
 };
 
 /**
- * Verifica se o usuário está autenticado e exibe os controles de
- * inserção e remoção somente para usuários autenticados.
+ * Tenta obter o ID do usuário autenticado a partir do endpoint /whoami/.
+ *
+ * @returns o ID do usuário se autenticado, ou null se for visitante.
  */
-async function configuraBotoesAutenticacao() {
-    const divAcoes = document.getElementById('acoesAutenticadas') as HTMLDivElement;
-    const colunaRemove = document.getElementById('colunaRemove') as HTMLTableCellElement;
-    const colunaAtualiza = document.getElementById('colunaAtualiza') as HTMLTableCellElement;
-    const mensagemAcesso = document.getElementById('mensagemAcesso') as HTMLParagraphElement;
+async function obtemIdDoUsuarioLogado(): Promise<number | null> {
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.id ?? null;
+}
 
-    if (response.ok) {
+/**
+ * Exibe os controles de inserção e remoção apenas para usuários autenticados.
+ *
+ * @param estaAutenticado verdadeiro se o usuário está logado.
+ */
+function configuraBotoesAutenticacao(estaAutenticado: boolean) {
+    const divAcoes = document.getElementById('acoesAutenticadas') as HTMLDivElement;
+    const colunaRemove = document.getElementById('colunaRemove') as HTMLTableCellElement;
+    const colunaAtualiza = document.getElementById('colunaAtualiza') as HTMLTableCellElement;
+    const mensagemAcesso = document.getElementById('mensagemAcesso') as HTMLParagraphElement;
+
+    if (estaAutenticado) {
         // Exibe os controles de ação apenas para usuários autenticados
         divAcoes.classList.remove('invisivel');
         divAcoes.classList.add('visivel');
@@ -53,15 +67,14 @@ async function configuraBotoesAutenticacao() {
 
 /**
  * Busca todas as músicas do backend e renderiza a tabela de resultados.
- * Quando o usuário está autenticado, o título de cada música vira um link para edição.
+ *
+ * O botão de atualizar e a checkbox de remover só são renderizados para
+ * cada música cujo `criador` coincide com o `userId` informado. Visitantes
+ * ou músicas sem criador (acervo público) ficam apenas com texto.
+ *
+ * @param userId ID do usuário autenticado, ou null se for visitante.
  */
-async function exibeListaDeMusicas() {
-    const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    });
-    const estaAutenticado = authResponse.ok;
-
+async function exibeListaDeMusicas(userId: number | null) {
     try {
         const response = await fetch(backendAddress + 'SongList/variasmusicas/');
 
@@ -87,7 +100,10 @@ async function exibeListaDeMusicas() {
                 tr.appendChild(td);
             });
 
-            if (estaAutenticado) {
+            // Só renderiza ações na música se o usuário logado for o criador dela
+            const ehDono = userId !== null && musica.criador === userId;
+
+            if (ehDono) {
                 const tdUpdate = document.createElement('td') as HTMLTableCellElement;
                 const botao = document.createElement('button') as HTMLButtonElement;
                 botao.type = 'button';
@@ -109,6 +125,11 @@ async function exibeListaDeMusicas() {
                 checkbox.setAttribute('value', musica['id']);
                 tdCheck.appendChild(checkbox);
                 tr.appendChild(tdCheck);
+            } else if (userId !== null) {
+                // Usuário logado, mas não é dono da música:
+                // mantém as células vazias para preservar o alinhamento das colunas.
+                tr.appendChild(document.createElement('td'));
+                tr.appendChild(document.createElement('td'));
             }
 
             tbody.appendChild(tr);
@@ -120,7 +141,8 @@ async function exibeListaDeMusicas() {
 
 /**
  * Exclui as músicas selecionadas na tabela e atualiza a lista em seguida.
- * O backend recebe um array de IDs para remoção em massa.
+ * O backend recebe um array de IDs e remove apenas as que pertencem ao
+ * próprio usuário.
  */
 let apagaMusicas = async (evento: Event) => {
     evento.preventDefault();
@@ -133,7 +155,7 @@ let apagaMusicas = async (evento: Event) => {
     try {
         const response = await authFetch(backendAddress + 'SongList/variasmusicas/', {
             method: 'DELETE',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(checkedValues)
@@ -147,6 +169,9 @@ let apagaMusicas = async (evento: Event) => {
     } catch (error) {
         console.error('Erro ao enviar dados para o backend:', error);
     } finally {
-        exibeListaDeMusicas();
+        // Recarrega a lista após a operação. Como precisamos da identidade
+        // do usuário para decidir o que renderizar, buscamos o ID novamente.
+        const userId = await obtemIdDoUsuarioLogado();
+        exibeListaDeMusicas(userId);
     }
 };

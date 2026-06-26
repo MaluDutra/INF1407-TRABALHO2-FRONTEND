@@ -75,17 +75,21 @@ onload = async () => {
                 },
                 body: JSON.stringify(data)
             });
+            const mensagem = document.getElementById('mensagem');
             if (response.ok) {
-                document.getElementById('mensagem').textContent = 'Música atualizada com sucesso!';
+                mensagem.textContent = 'Música atualizada com sucesso!';
                 setTimeout(() => {
                     window.location.href = getBasePath() + 'index.html';
                 }, 1500);
             }
             else if (response.status === 401) {
-                document.getElementById('mensagem').textContent = 'Acesso negado. Por favor, realize login antes.';
+                mensagem.textContent = 'Acesso negado. Por favor, realize login antes.';
+            }
+            else if (response.status === 403) {
+                mensagem.textContent = 'Você só pode editar músicas criadas por você.';
             }
             else {
-                document.getElementById('mensagem').textContent = 'Erro ao atualizar música.';
+                mensagem.textContent = 'Erro ao atualizar música.';
             }
         }
         catch (error) {

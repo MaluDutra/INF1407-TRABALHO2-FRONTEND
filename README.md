@@ -12,7 +12,9 @@ Interface web em HTML + CSS + TypeScript que consome a API REST do backend [INF1
 
 O **SongList** é um catálogo colaborativo de músicas. Este repositório contém o frontend da aplicação: um site estático em HTML/CSS/TypeScript que consome os endpoints REST do backend.
 
-A página inicial exibe a lista pública de músicas para qualquer visitante. Usuários autenticados ganham acesso aos botões de inserção, edição e remoção, e cada música da lista passa a ser um link para a página de edição. O fluxo completo de autenticação (cadastro, login, logout, troca de senha e recuperação de senha por código) está implementado em páginas dedicadas dentro de `accounts/`.
+A página inicial exibe a lista pública de músicas para qualquer visitante. Usuários autenticados ganham acesso ao botão de inserção de novas músicas, e — esta é a diferença importante por usuário — os botões de **atualizar** e **remover** aparecem apenas nas linhas das músicas que o próprio usuário criou. Assim, cada usuário vê a mesma lista, mas tem ações disponíveis somente sobre o próprio acervo.
+
+O fluxo completo de autenticação (cadastro, login, logout, troca de senha e recuperação de senha por código) está implementado em páginas dedicadas dentro de `accounts/`. O cabeçalho dinâmico também exibe o nome do usuário logado.
 
 Todo o código JavaScript é gerado a partir de TypeScript, conforme exigido pelo enunciado.
 
@@ -25,7 +27,7 @@ Todo o código JavaScript é gerado a partir de TypeScript, conforme exigido pel
 ## Tecnologias
 
 - HTML5
-- CSS3 + Bootstrap 4.5 (via CDN)
+- CSS3
 - TypeScript (compilado para JavaScript ES2018 módulos ESM)
 - Fetch API para comunicação com o backend
 - JWT armazenado no `localStorage` para autenticação
@@ -88,16 +90,16 @@ INF1407-TRABALHO2-FRONTEND/
 │   │   ├── passwordReset.html
 │   │   └── passwordResetDone.html
 │   ├── css/                      # Folhas de estilo
-│   ├── img/                      # Ícones (olho, eye-off)
+│   ├── img/                      # Ícones (olho, atualizar)
 │   └── javascript/               # JS gerado pelo tsc (não editar)
 ├── typescript/                   # Código-fonte TypeScript
 │   ├── constantes.ts             # URL do backend e helpers
 │   ├── cabecalho.ts              # Lógica do cabeçalho dinâmico
-│   ├── script.ts                 # Listagem e remoção de músicas
+│   ├── script.ts                 # Listagem, autorização por linha e remoção
 │   ├── insereMusica.ts
 │   ├── update.ts
 │   ├── accounts/
-│   │   ├── common.ts             # authFetch e refresh de token
+│   │   ├── common.ts             # authFetch, refresh de token e olhinho de senha
 │   │   ├── login.ts
 │   │   ├── register.ts
 │   │   ├── passwordChange.ts
@@ -113,25 +115,26 @@ A pasta `typescript/` é o código-fonte. O compilador gera os `.js` corresponde
 
 ### Visitante (sem login)
 
-Ao abrir o site, qualquer visitante vê a lista de músicas cadastradas, com os campos **Título**, **Artista**, **Álbum** e **Ano**. Os botões de ação (Insere / Remove) e os links de edição ficam ocultos.
+Ao abrir o site, qualquer visitante vê a lista de músicas cadastradas, com os campos **Título**, **Artista**, **Álbum** e **Ano**. Os botões de ação (Insere / Remove) ficam ocultos e nenhuma coluna de ações é exibida.
 
 ### Cadastro de usuário
 
-Pelo link **Login** no cabeçalho, escolha **Cadastre-se aqui**. Preencha username, email e senha (mínimo de 8 caracteres, não pode ser somente numérica nem muito comum). Após o cadastro, você é redirecionado para a tela de login.
+Pelo link **Entrar** no cabeçalho, escolha **Cadastre-se aqui**. Preencha username, email e senha (mínimo de 8 caracteres, não pode ser somente numérica nem muito comum). Após o cadastro, você é redirecionado para a tela de login.
 
 ### Login
 
-Informe username e senha. Em caso de sucesso, os tokens JWT (acesso e refresh) são armazenados no `localStorage` e você é redirecionado para a página principal, agora com permissões de usuário autenticado.
+Informe username e senha. Em caso de sucesso, os tokens JWT (acesso e refresh) são armazenados no `localStorage` e você é redirecionado para a página principal, agora com permissões de usuário autenticado. O cabeçalho passa a mostrar seu nome de usuário.
 
 ### Usuário autenticado
 
-Com o login feito, a lista de músicas passa a exibir:
+Com o login feito, a lista de músicas passa a exibir duas colunas adicionais — **Atualiza** e **Remove** — mas as ações dentro delas aparecem **somente nas linhas das músicas que você mesmo criou**:
 
-- Cada título da música vira um link para a página de **edição**.
-- Uma nova coluna **Remove** com checkboxes para seleção múltipla.
-- Os botões **Insere** (vai para o formulário de criação) e **Remove** (apaga as músicas selecionadas).
+- Para músicas suas, aparece o botão de atualizar e a checkbox de remoção.
+- Para músicas de outros usuários (ou do acervo público inicial), as células correspondentes ficam vazias.
 
-O cabeçalho passa a mostrar o username, um botão **Troca senha** e um botão **Logout**.
+Os botões globais **Insere** (vai para o formulário de criação) e **Remove** (apaga as músicas selecionadas via checkbox) aparecem sempre que o usuário está logado.
+
+O cabeçalho passa a mostrar o username, um botão **Troca senha** e um botão **Sair**.
 
 ### Troca de senha
 
@@ -141,7 +144,7 @@ Acessível pelo cabeçalho quando logado. Pede a senha atual, a nova senha e a c
 
 Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um código de recuperação é gerado pelo backend. Na tela seguinte (`passwordResetDone.html`), informe esse código e a nova senha para concluir o processo.
 
-> Como o backend em produção não tem SMTP configurado, o código é devolvido na resposta da requisição (visível no console do navegador). Veja a seção "O que não funcionou" abaixo.
+> Como o backend em produção não tem SMTP configurado, o código é visível apenas no console do Render. Veja a seção "O que não funcionou" abaixo.
 
 ## Capturas de tela
 
@@ -151,13 +154,11 @@ Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um cód
 
 ### Página inicial — usuário autenticado
 
-![Lista com ações de edição](docs/logado.png)
+![Lista com ações disponíveis nas músicas do usuário](docs/logado.png)
 
 ### Tela de login
 
 ![Tela de login](docs/login.png)
-
-> As imagens ficam em `docs/` na raiz do repositório.
 
 ## O que funcionou
 
@@ -167,9 +168,9 @@ Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um cód
 - Renovação automática do token de acesso quando expirado (via `authFetch`)
 - Logout limpando os tokens e redirecionando para a página inicial
 - Cabeçalho dinâmico, mostrando o nome do usuário logado ou "visitante!"
-- Visões diferentes para visitantes e autenticados na página inicial (botões e links de edição só aparecem para autenticados)
+- **Visões diferentes por usuário:** as ações de atualizar e remover aparecem apenas nas linhas das músicas criadas pelo usuário autenticado
 - Inserção de novas músicas (página `insereMusica.html`)
-- Edição de músicas existentes (página `update.html`)
+- Edição de músicas existentes (página `update.html`) com tratamento de erro 403 caso a música não pertença ao usuário
 - Remoção em lote de músicas selecionadas via checkbox
 - Troca de senha do usuário autenticado
 - Solicitação de recuperação de senha (geração do código)
@@ -179,4 +180,4 @@ Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um cód
 
 ## O que não funcionou
 
-- **Envio real de email de recuperação de senha em produção.** O backend hospedado no Render não tem SMTP configurado, então o email não chega. Como contorno, o código de recuperação é enviado pelo console no Render.
+- **Envio real de email de recuperação de senha em produção.** O backend hospedado no Render não tem SMTP configurado, então o email não chega. Como contorno, o código de recuperação aparece no console do Render — o usuário precisa pegar o código por lá para concluir o fluxo de recuperação.
