@@ -1,0 +1,13 @@
+{
+  "name": "songlist-frontend",
+  "version": "1.0.0",
+  "description": "Frontend do Songlist - Trabalho 2 INF1407",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
