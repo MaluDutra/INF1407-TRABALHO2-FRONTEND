@@ -1,40 +1,183 @@
-main {
-    font-family: Arial;
-    max-width: 600px;
-    margin: 40px auto;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-button {
-    width: 100%;
-    padding: 8px;
-    margin: 6px 0;
-    background: #1a73e8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
-button:hover {
-    background: #1558b0;
-}
-
-#msg {
-    margin-top: 10px;
-    color: red;
-}
-
-.password-container {
+body {
+    background-color: #0f0f1a;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #e0e0e0;
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.password-container input {
-    flex: 1;
+#cabecalho {
+    display: none;
 }
 
-.password-container .eye-icon {
-    width: 24px;
-    height: 24px;
-    margin-left: 8px;
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+}
+
+main::before {
+    content: "🎵";
+    font-size: 2.5rem;
+    background-color: #7c4dff;
+    border-radius: 16px;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    line-height: 64px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+    text-align: center;
+}
+
+main > p {
+    color: #9e9eb8;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+form {
+    background-color: #1a1a2e;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+}
+
+form > p,
+main > p:last-of-type {
+    color: #9e9eb8;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+form > p a,
+main > p a {
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+form > p a:hover,
+main > p a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 0;
+}
+
+table tr:first-child td,
+table tr:nth-child(2) td {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+table td:first-child {
+    font-size: 0.85rem;
+    color: #b0b0cc;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+table td:last-child input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #252540;
+    border: 1px solid #3a3a5c;
+    border-radius: 10px;
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+table td:last-child input:focus {
+    border-color: #7c4dff;
+}
+
+table td:last-child input::placeholder {
+    color: #5a5a7a;
+}
+
+table tr:last-child td {
+    display: block;
+    padding-top: 0.5rem;
+}
+
+button#btnLogin {
+    width: 100%;
+    padding: 0.85rem;
+    background-color: #7c4dff;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button#btnLogin:hover {
+    background-color: #6a3de8;
+}
+
+button#btnLogin:active {
+    transform: scale(0.98);
+}
+
+#msg {
+    color: #f87171;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+    min-height: 1.2rem;
+}
+
+p a[href*="passwordReset"],
+p a[href*="register"] {
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+p a[href*="passwordReset"]:hover,
+p a[href*="register"]:hover {
+    text-decoration: underline;
+}
+
+main > p {
+    margin-top: 1rem;
+    color: #9e9eb8;
+    font-size: 0.9rem;
 }
