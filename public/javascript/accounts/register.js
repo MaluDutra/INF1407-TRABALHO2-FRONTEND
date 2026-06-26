@@ -1,4 +1,5 @@
 import { backendAddress, getBasePath } from '../constantes.js';
+import './common.js';
 /**
  * Inicializa o formulário de registro quando a página é carregada.
  */

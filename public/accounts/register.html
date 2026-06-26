@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
     <script type="module" src="../javascript/accounts/register.js"></script>
     <link rel="stylesheet" href="../css/register.css">
-    <title>Cadastro de Usuário</title>
 </head>
 
 <body>
@@ -26,14 +26,24 @@
                     </tr>
                     <tr>
                         <td>Senha:</td>
-                        <td><input type="password" name="password" id="password" required minlength="8"></td>
+                        <td>
+                            <div class="password-container">
+                                <input type="password" name="password" id="password" required minlength="8">
+                                <img src="../img/eye-off.svg" alt="Mostrar senha" class="eye-icon toggle-password">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Confirmar senha:</td>
-                        <td><input type="password" name="password_confirm" id="password_confirm" required minlength="8"></td>
+                        <td>
+                            <div class="password-container">
+                                <input type="password" name="password_confirm" id="password_confirm" required minlength="8">
+                                <img src="../img/eye-off.svg" alt="Mostrar senha" class="eye-icon toggle-password">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center"><button type="submit">Registrar</button></td>
+                        <td colspan="2"><button type="submit">Registrar</button></td>
                     </tr>
                 </tbody>
             </table>

@@ -67,7 +67,7 @@ table tr:last-child {
 }
 
 table td:first-child {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #b0b0cc;
     font-weight: 500;
     margin-bottom: 0.4rem;
@@ -85,14 +85,12 @@ table td input[type="password"] {
     font-size: 0.95rem;
     outline: none;
     transition: border-color 0.2s;
-    box-shadow: none;
 }
 
 table td input[type="text"]:focus,
 table td input[type="email"]:focus,
 table td input[type="password"]:focus {
     border-color: #7c4dff;
-    box-shadow: none;
 }
 
 table td input::placeholder {
@@ -103,6 +101,34 @@ table tr:last-child td {
     display: flex;
     justify-content: center;
     padding-top: 0.5rem;
+}
+
+/* ===== Olhinho de mostrar/ocultar senha ===== */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"] {
+    padding-right: 2.8rem;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    filter: invert(1);
+}
+
+.eye-icon:hover {
+    opacity: 0.9;
 }
 
 button[type="submit"] {
@@ -116,7 +142,6 @@ button[type="submit"] {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
-    box-shadow: none;
 }
 
 button[type="submit"]:hover {

@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // verifica se o container está bem formado, ou seja, se contém um campo de senha e um ícone de olho
         if (!objInput || !objImgEye) return; // container mal formado
 
+        // Lê o caminho inicial (ex.: "../img/eye-off.svg") e calcula o caminho da imagem aberta
         const eyeOff = objImgEye.getAttribute('src') ?? '';
         const eyeOpen = eyeOff.replace('eye-off', 'eye-open');
 

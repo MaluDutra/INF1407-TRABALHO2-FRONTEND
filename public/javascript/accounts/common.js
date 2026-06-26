@@ -5,6 +5,10 @@ import { backendAddress } from '../constantes.js';
  * Para cada elemento com a classe `.password-container`, o script procura
  * um campo de senha e um ícone de alternância. Se ambos existirem, o ícone
  * passa a alternar entre `password` e `text` ao ser clicado.
+ *
+ * O caminho da imagem aberta é deduzido a partir do `src` inicial do ícone
+ * (substituindo "eye-off" por "eye-open"), permitindo que o helper funcione
+ * em qualquer pasta sem hardcode de caminho.
  */
 document.addEventListener("DOMContentLoaded", () => {
     // Para cada campo password, adiciona um ícone de olho para mostrar/ocultar a senha
@@ -12,20 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const containers = document.querySelectorAll(".password-container");
     // para cada container, adiciona um event listener ao ícone de olho para alternar entre mostrar e ocultar a senha
     containers.forEach(container => {
+        var _a;
         const objInput = container.querySelector('input[type="password"]');
         const objImgEye = container.querySelector(".toggle-password");
         // verifica se o container está bem formado, ou seja, se contém um campo de senha e um ícone de olho
         if (!objInput || !objImgEye)
             return; // container mal formado
+        // Lê o caminho inicial (ex.: "../img/eye-off.svg") e calcula o caminho da imagem aberta
+        const eyeOff = (_a = objImgEye.getAttribute('src')) !== null && _a !== void 0 ? _a : '';
+        const eyeOpen = eyeOff.replace('eye-off', 'eye-open');
         // adiciona o event listener ao ícone de olho para alternar entre mostrar e ocultar a senha
         objImgEye.addEventListener("click", () => {
             if (objInput.type === "password") {
                 objInput.type = "text";
-                objImgEye.src = "img/eye.svg";
+                objImgEye.src = eyeOpen;
             }
             else {
                 objInput.type = "password";
-                objImgEye.src = "img/eye-off.svg";
+                objImgEye.src = eyeOff;
             }
         });
     });

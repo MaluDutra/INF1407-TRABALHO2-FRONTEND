@@ -1,4 +1,5 @@
 import { backendAddress, getBasePath } from '../constantes.js';
+import './common.js';
 /**
  * Inicializa o formulário de login quando a página é carregada.
  * Captura as credenciais do usuário e tenta autenticar no backend.
