@@ -13,11 +13,19 @@ onload = () => {
         try {
             const response = await fetch(backendAddress + 'SongList/criar/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                },
                 body: JSON.stringify(data)
             });
             if (response.ok) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Inserido com sucesso!';
+                setTimeout(() => {
+                    window.location.href = '/public/';
+                }, 1500);
+            } else if (response.status === 401) {
+                (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Acesso negado. Por favor, realize login antes.';
             } else {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Erro ao inserir música.';
             }

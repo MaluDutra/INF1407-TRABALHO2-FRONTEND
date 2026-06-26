@@ -48,17 +48,22 @@ onload = async () => {
             }
         }
         try {
-            // const token = localStorage.getItem('access_token');
             const response = await fetch(backendAddress + 'SongList/umamusica/' + id + '/', {
                 method: 'PUT',
                 headers: {
-                    // 'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
                 },
                 body: JSON.stringify(data)
             });
             if (response.ok) {
                 document.getElementById('mensagem').textContent = 'Música atualizada com sucesso!';
+                setTimeout(() => {
+                    window.location.href = '/public/';
+                }, 1500);
+            }
+            else if (response.status === 401) {
+                document.getElementById('mensagem').textContent = 'Acesso negado. Por favor, realize login antes.';
             }
             else {
                 document.getElementById('mensagem').textContent = 'Erro ao atualizar música.';
