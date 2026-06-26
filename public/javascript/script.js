@@ -83,7 +83,10 @@ let apagaMusicas = async (evento) => {
     try {
         const response = await fetch(backendAddress + 'SongList/variasmusicas/', {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            },
             body: JSON.stringify(checkedValues)
         });
         if (response.ok) {
