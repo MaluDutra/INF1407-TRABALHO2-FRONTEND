@@ -1,6 +1,17 @@
 import { backendAddress } from './constantes.js';
+import { authFetch } from './accounts/common.js';
 
-onload = () => {
+onload = async () => {
+    // visitante não pode acessar esta página
+    const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (!authResponse.ok) {
+        window.location.href = 'accounts/login.html';
+        return;
+    }
+
     (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', async e => {
         e.preventDefault();
         const elements = (document.getElementById('meuFormulario') as HTMLFormElement).elements; 

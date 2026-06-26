@@ -1,16 +1,39 @@
 // scripts.ts
 import { backendAddress } from './constantes.js';
+import { authFetch } from './accounts/common.js';
 
-onload = function () {
-    (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', evento => { location.href = 'insereMusica.html' });
-
-    (document.getElementById('remove') as HTMLButtonElement).addEventListener('click', apagaMusicas);
-
-    exibeListaDeMusicas(); // exibe lista de músicas ao carregar a página
+onload = async function () {
+    await configuraBotoesAutenticacao();
+    exibeListaDeMusicas();
 }
 
+/**
+ * Verifica se o usuário está autenticado e mostra ou esconde
+ * os botões de inserir e remover de acordo com o estado de autenticação.
+ */
+async function configuraBotoesAutenticacao() {
+    const divAcoes = document.getElementById('acoesAutenticadas') as HTMLDivElement;
+    const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+        // usuário autenticado: exibe os botões de ação
+        divAcoes.classList.remove('invisivel');
+        divAcoes.classList.add('visivel');
+        (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => { location.href = 'insereMusica.html'; });
+        (document.getElementById('remove') as HTMLButtonElement).addEventListener('click', apagaMusicas);
+    }
+}
 
 async function exibeListaDeMusicas() {
+    const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    const estaAutenticado = authResponse.ok;
+
     try {
         const response = await fetch(backendAddress + 'SongList/variasmusicas/');
 
@@ -19,43 +42,52 @@ async function exibeListaDeMusicas() {
         }
 
         const musicas = await response.json();
-        let campos = ['titulo', 'artista', 'album', 'ano'];
-        let tbody = document.getElementById('idtbody') as HTMLTableSectionElement;
+        const campos = ['titulo', 'artista', 'album', 'ano'];
+        const tbody = document.getElementById('idtbody') as HTMLTableSectionElement;
 
-        tbody.innerHTML = ''; // Limpa o conteúdo do tbody antes de adicionar novos dados
+        
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
 
         musicas.forEach((musica: any) => {
-            let tr = document.createElement('tr');
-            campos.forEach(campo => {
-                let td = document.createElement('td') as HTMLTableCellElement;
+            const tr = document.createElement('tr');
 
-                let href = document.createElement('a') as HTMLAnchorElement;
-                href.href = 'update.html?id=' + musica['id'];
-                href.textContent = musica[campo];
-                td.appendChild(href);
+            campos.forEach(campo => {
+                const td = document.createElement('td') as HTMLTableCellElement;
+
+                if (estaAutenticado) {
+                    const href = document.createElement('a') as HTMLAnchorElement;
+                    href.href = 'update.html?id=' + musica['id'];
+                    href.textContent = musica[campo];
+                    td.appendChild(href);
+                } else {
+                    td.textContent = musica[campo];
+                }
+
                 tr.appendChild(td);
             });
 
-            let checkbox = document.createElement('input') as HTMLInputElement;
-            checkbox.setAttribute('type', 'checkbox');
-            checkbox.setAttribute('name', 'id');
-            checkbox.setAttribute('id', 'id');
-            checkbox.setAttribute('value', musica['id']);
-            let td = document.createElement('td') as HTMLTableCellElement;
-            td.appendChild(checkbox);
-            tr.appendChild(td);
+            const tdCheck = document.createElement('td') as HTMLTableCellElement;
+            if (estaAutenticado) {
+                const checkbox = document.createElement('input') as HTMLInputElement;
+                checkbox.setAttribute('type', 'checkbox');
+                checkbox.setAttribute('name', 'id');
+                checkbox.setAttribute('value', musica['id']);
+                tdCheck.appendChild(checkbox);
+            }
+            tr.appendChild(tdCheck);
 
             tbody.appendChild(tr);
         });
     } catch (error) {
         console.error('Erro ao buscar a lista de músicas:', error);
-        // talvez exibir uma mensagem de erro para o usuário
     }
 }
 
 let apagaMusicas = async (evento: Event) => {
     evento.preventDefault();
-    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="id"]:checked') as NodeListOf<HTMLInputElement>;
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="id"]:checked');
     const checkedValues: string[] = [];
     checkboxes.forEach(checkbox => {
         checkedValues.push(checkbox.value);
@@ -69,15 +101,13 @@ let apagaMusicas = async (evento: Event) => {
         });
         if (response.ok) {
             alert('Músicas excluídas com sucesso!');
-            console.log('Músicas excluídas com sucesso!');
         } else {
             alert('Erro ao excluir músicas!');
             console.error('Erro ao excluir músicas:', response.status);
         }
     } catch (error) {
-        // Talvez mensagem melhor de erro ao usuário
         console.error('Erro ao enviar dados para o backend:', error);
     } finally {
-        exibeListaDeMusicas(); // Atualiza a lista de músicas após a exclusão
+        exibeListaDeMusicas();
     }
 };

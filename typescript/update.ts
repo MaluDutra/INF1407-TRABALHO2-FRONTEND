@@ -1,6 +1,17 @@
 import { backendAddress } from './constantes.js';
+import { authFetch } from './accounts/common.js';
 
 onload = async () => {
+    // visitante não pode acessar esta página
+    const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (!authResponse.ok) {
+        window.location.href = 'accounts/login.html';
+        return;
+    }
+
     // Parte 1: carregar dados do carro a ser editado e preencher o formulário
     // Carrega os dados do carro a ser editado do banco de dados
     // Preenche o formulário com os dados do carro

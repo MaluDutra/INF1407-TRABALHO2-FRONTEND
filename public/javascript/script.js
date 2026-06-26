@@ -1,44 +1,80 @@
 // scripts.ts
 import { backendAddress } from './constantes.js';
-onload = function () {
-    document.getElementById('insere').addEventListener('click', evento => { location.href = 'insereMusica.html'; });
-    document.getElementById('remove').addEventListener('click', apagaMusicas);
-    exibeListaDeMusicas(); // exibe lista de músicas ao carregar a página
+import { authFetch } from './accounts/common.js';
+onload = async function () {
+    await configuraBotoesAutenticacao();
+    exibeListaDeMusicas();
 };
+/**
+ * Verifica se o usuário está autenticado e mostra ou esconde
+ * os botões de inserir e remover de acordo com o estado de autenticação.
+ */
+async function configuraBotoesAutenticacao() {
+    const divAcoes = document.getElementById('acoesAutenticadas');
+    const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (response.ok) {
+        // usuário autenticado: exibe os botões de ação
+        divAcoes.classList.remove('invisivel');
+        divAcoes.classList.add('visivel');
+        document.getElementById('insere').addEventListener('click', () => { location.href = 'insereMusica.html'; });
+        document.getElementById('remove').addEventListener('click', apagaMusicas);
+    }
+    // visitante: div permanece com class="invisivel", nada a fazer
+}
 async function exibeListaDeMusicas() {
+    // verifica autenticação para decidir se exibe links de update e checkboxes
+    const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    const estaAutenticado = authResponse.ok;
     try {
         const response = await fetch(backendAddress + 'SongList/variasmusicas/');
         if (!response.ok) {
             throw new Error('Erro na resposta da API: ' + response.status);
         }
         const musicas = await response.json();
-        let campos = ['titulo', 'artista', 'album', 'ano'];
-        let tbody = document.getElementById('idtbody');
-        tbody.innerHTML = ''; // Limpa o conteúdo do tbody antes de adicionar novos dados
+        const campos = ['titulo', 'artista', 'album', 'ano'];
+        const tbody = document.getElementById('idtbody');
+        // limpa sem usar innerHTML
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
         musicas.forEach((musica) => {
-            let tr = document.createElement('tr');
+            const tr = document.createElement('tr');
             campos.forEach(campo => {
-                let td = document.createElement('td');
-                let href = document.createElement('a');
-                href.href = 'update.html?id=' + musica['id'];
-                href.textContent = musica[campo];
-                td.appendChild(href);
+                const td = document.createElement('td');
+                if (estaAutenticado) {
+                    // logado: célula vira link para editar
+                    const href = document.createElement('a');
+                    href.href = 'update.html?id=' + musica['id'];
+                    href.textContent = musica[campo];
+                    td.appendChild(href);
+                }
+                else {
+                    // visitante: só texto, sem link de edição
+                    td.textContent = musica[campo];
+                }
                 tr.appendChild(td);
             });
-            let checkbox = document.createElement('input');
-            checkbox.setAttribute('type', 'checkbox');
-            checkbox.setAttribute('name', 'id');
-            checkbox.setAttribute('id', 'id');
-            checkbox.setAttribute('value', musica['id']);
-            let td = document.createElement('td');
-            td.appendChild(checkbox);
-            tr.appendChild(td);
+            // coluna de checkbox: só aparece para autenticados
+            const tdCheck = document.createElement('td');
+            if (estaAutenticado) {
+                const checkbox = document.createElement('input');
+                checkbox.setAttribute('type', 'checkbox');
+                checkbox.setAttribute('name', 'id');
+                checkbox.setAttribute('value', musica['id']);
+                tdCheck.appendChild(checkbox);
+            }
+            tr.appendChild(tdCheck);
             tbody.appendChild(tr);
         });
     }
     catch (error) {
         console.error('Erro ao buscar a lista de músicas:', error);
-        // talvez exibir uma mensagem de erro para o usuário
     }
 }
 let apagaMusicas = async (evento) => {
@@ -56,7 +92,6 @@ let apagaMusicas = async (evento) => {
         });
         if (response.ok) {
             alert('Músicas excluídas com sucesso!');
-            console.log('Músicas excluídas com sucesso!');
         }
         else {
             alert('Erro ao excluir músicas!');
@@ -64,11 +99,10 @@ let apagaMusicas = async (evento) => {
         }
     }
     catch (error) {
-        // Talvez mensagem melhor de erro ao usuário
         console.error('Erro ao enviar dados para o backend:', error);
     }
     finally {
-        exibeListaDeMusicas(); // Atualiza a lista de músicas após a exclusão
+        exibeListaDeMusicas();
     }
 };
 //# sourceMappingURL=script.js.map
