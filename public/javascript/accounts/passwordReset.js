@@ -1,4 +1,4 @@
-import { backendAddress } from '../constantes.js';
+import { backendAddress, getBasePath } from '../constantes.js';
 /**
  * Processa o envio do formulário de recuperação de senha.
  *
@@ -24,7 +24,7 @@ addEventListener("DOMContentLoaded", (evento) => {
                 messageDiv.textContent = "Instruções para resetar a senha foram enviadas para o seu e-mail.";
                 messageDiv.style.color = "green";
                 setTimeout(() => {
-                    location.href = 'passwordResetDone.html';
+                    location.href = getBasePath() + 'accounts/passwordResetDone.html';
                 }, 3000);
             }
             else {

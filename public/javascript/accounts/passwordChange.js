@@ -1,4 +1,4 @@
-import { backendAddress } from '../constantes.js';
+import { backendAddress, getBasePath } from '../constantes.js';
 import { authFetch } from './common.js';
 /**
  * Inicializa o formulario de alteração de senha após o carregamento do DOM.
@@ -34,7 +34,7 @@ addEventListener("DOMContentLoaded", () => {
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
                 setTimeout(() => {
-                    location.href = "login.html";
+                    location.href = getBasePath() + "accounts/login.html";
                 }, 3000);
             }
             else {

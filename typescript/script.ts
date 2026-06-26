@@ -1,5 +1,5 @@
 // scripts.ts
-import { backendAddress } from './constantes.js';
+import { backendAddress, getBasePath } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 
 /**
@@ -29,7 +29,7 @@ async function configuraBotoesAutenticacao() {
         (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.remove('invisivel');
         (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.add('visivel');
         (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => {
-            location.href = 'insereMusica.html';
+            location.href = getBasePath() + 'insereMusica.html';
         });
         (document.getElementById('remove') as HTMLButtonElement).addEventListener('click', apagaMusicas);
     }
@@ -70,7 +70,7 @@ async function exibeListaDeMusicas() {
 
                 if (estaAutenticado) {
                     const href = document.createElement('a') as HTMLAnchorElement;
-                    href.href = 'update.html?id=' + musica['id'];
+                    href.href = getBasePath() + 'update.html?id=' + musica['id'];
                     href.textContent = musica[campo];
                     td.appendChild(href);
                 } else {

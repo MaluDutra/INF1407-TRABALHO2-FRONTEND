@@ -1,4 +1,4 @@
-import { backendAddress, type JwtResposta } from '../constantes.js';
+import { backendAddress, type JwtResposta, getBasePath } from '../constantes.js';
 
 /**
  * Inicializa o formulário de login quando a página é carregada.
@@ -18,7 +18,7 @@ onload = () => {
             // Armazena os tokens JWT no localStorage para uso nas próximas requisições
             localStorage.setItem("access_token", tokens.access);
             localStorage.setItem("refresh_token", tokens.refresh);
-            window.location.href = "./index.html";
+            window.location.href = getBasePath() + "index.html";
         } catch (err) {
             msg.textContent = "Usuário ou senha inválidos";
         }

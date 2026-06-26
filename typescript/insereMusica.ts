@@ -1,4 +1,4 @@
-import { backendAddress } from './constantes.js';
+import { backendAddress, getBasePath } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 
 /**
@@ -12,7 +12,7 @@ onload = async () => {
         headers: { 'Content-Type': 'application/json' }
     });
     if (!authResponse.ok) {
-        window.location.href = './accounts/login.html';
+        window.location.href = getBasePath() + 'accounts/login.html';
         return;
     }
 
@@ -40,7 +40,7 @@ onload = async () => {
             if (response.ok) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Inserido com sucesso!';
                 setTimeout(() => {
-                    window.location.href = './index.html';
+                    window.location.href = getBasePath() + 'index.html';
                 }, 1500);
             } else if (response.status === 401) {
                 (document.getElementById('mensagem') as HTMLDivElement).textContent = 'Acesso negado. Por favor, realize login antes.';

@@ -1,4 +1,4 @@
-import { backendAddress } from '../constantes.js';
+import { backendAddress, getBasePath } from '../constantes.js';
 import { authFetch } from './common.js';
 
 /**
@@ -41,7 +41,7 @@ addEventListener("DOMContentLoaded", () => {
                 localStorage.removeItem('refresh_token');
 
                 setTimeout(() => {
-                    location.href = "login.html";
+                    location.href = getBasePath() + "accounts/login.html";
                 }, 3000);
             } else {
                 const errorData = await response.json();

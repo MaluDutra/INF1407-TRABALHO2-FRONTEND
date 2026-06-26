@@ -1,4 +1,4 @@
-import { backendAddress } from '../constantes.js';
+import { backendAddress, getBasePath } from '../constantes.js';
 /**
  * Inicializa a página de redefinição de senha quando o carregamento é concluído.
  * Registra os eventos dos botões e configura a troca de visibilidade dos campos.
@@ -32,7 +32,7 @@ addEventListener("load", function () {
             message.textContent = "Senha alterada com sucesso! Redirecionando para a página de login...";
             message.style.color = "green";
             setTimeout(() => {
-                location.href = "login.html";
+                location.href = getBasePath() + "accounts/login.html";
             }, 3000);
         }
         else {

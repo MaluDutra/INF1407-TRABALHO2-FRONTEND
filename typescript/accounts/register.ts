@@ -1,4 +1,4 @@
-import { backendAddress } from '../constantes.js';
+import { backendAddress, getBasePath } from '../constantes.js';
 
 /**
  * Inicializa o formulário de registro quando a página é carregada.
@@ -39,7 +39,7 @@ onload = () => {
                 messageDiv.textContent = 'Usuário criado com sucesso. Redirecionando para login...';
 
                 setTimeout(() => {
-                    window.location.href = './accounts/login.html';
+                    window.location.href = getBasePath() + 'accounts/login.html';
                 }, 2500);
                 return;
             }

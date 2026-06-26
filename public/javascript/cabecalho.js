@@ -1,4 +1,4 @@
-import { backendAddress } from './constantes.js';
+import { backendAddress, getBasePath } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 /**
  * Inicializa o cabeçalho da página após o carregamento.
@@ -53,7 +53,7 @@ const logout = (evento) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    const homeUrl = './?logout=' + Date.now();
+    const homeUrl = getBasePath() + '?logout=' + Date.now();
     if (window.top && window.top !== window) {
         window.top.location.href = homeUrl;
     }

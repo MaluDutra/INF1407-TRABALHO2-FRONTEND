@@ -1,4 +1,4 @@
-import { backendAddress } from './constantes.js';
+import { backendAddress, getBasePath } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 /**
  * Inicializa a página de edição de música.
@@ -15,7 +15,7 @@ onload = async () => {
     });
     if (!authResponse.ok) {
         // Se não estiver autenticado, redireciona para a página de login
-        window.location.href = './accounts/login.html';
+        window.location.href = getBasePath() + 'accounts/login.html';
         return;
     }
     // Busca o parâmetro "id" na URL para saber qual música deve ser editada
@@ -79,7 +79,7 @@ onload = async () => {
             if (response.ok) {
                 document.getElementById('mensagem').textContent = 'Música atualizada com sucesso!';
                 setTimeout(() => {
-                    window.location.href = './index.html';
+                    window.location.href = getBasePath() + 'index.html';
                 }, 1500);
             }
             else if (response.status === 401) {
