@@ -22,10 +22,8 @@ async function configuraBotoesAutenticacao() {
         document.getElementById('insere').addEventListener('click', () => { location.href = 'insereMusica.html'; });
         document.getElementById('remove').addEventListener('click', apagaMusicas);
     }
-    // visitante: div permanece com class="invisivel", nada a fazer
 }
 async function exibeListaDeMusicas() {
-    // verifica autenticação para decidir se exibe links de update e checkboxes
     const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -39,7 +37,6 @@ async function exibeListaDeMusicas() {
         const musicas = await response.json();
         const campos = ['titulo', 'artista', 'album', 'ano'];
         const tbody = document.getElementById('idtbody');
-        // limpa sem usar innerHTML
         while (tbody.firstChild) {
             tbody.removeChild(tbody.firstChild);
         }
@@ -48,19 +45,16 @@ async function exibeListaDeMusicas() {
             campos.forEach(campo => {
                 const td = document.createElement('td');
                 if (estaAutenticado) {
-                    // logado: célula vira link para editar
                     const href = document.createElement('a');
                     href.href = 'update.html?id=' + musica['id'];
                     href.textContent = musica[campo];
                     td.appendChild(href);
                 }
                 else {
-                    // visitante: só texto, sem link de edição
                     td.textContent = musica[campo];
                 }
                 tr.appendChild(td);
             });
-            // coluna de checkbox: só aparece para autenticados
             const tdCheck = document.createElement('td');
             if (estaAutenticado) {
                 const checkbox = document.createElement('input');

@@ -52,5 +52,5 @@ const logout = (evento: MouseEvent) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    window.location.href = '/public/';
+    window.location.href = '/public/?logout=' + Date.now();
 }

@@ -51,6 +51,6 @@ const logout = (evento) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    window.location.href = '/public/';
+    window.location.href = '/public/?logout=' + Date.now();
 };
 //# sourceMappingURL=cabecalho.js.map
