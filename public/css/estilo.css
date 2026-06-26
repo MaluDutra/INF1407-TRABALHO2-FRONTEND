@@ -1,11 +1,143 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0f0f1a;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+#cabecalho {
+    width: 100%;
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+form {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a1a2e;
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+}
+
+table thead tr {
+    background-color: #252540;
+}
+
+table thead td {
+    padding: 0.85rem 1.2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9e9eb8;
+    border: none;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #252540;
+    transition: background-color 0.15s;
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table tbody tr:hover {
+    background-color: #20203a;
+}
+
+table tbody td {
+    padding: 0.85rem 1.2rem;
+    font-size: 0.9rem;
+    color: #d0d0e8;
+    border: none;
+}
+
+table tbody td a {
+    color: #c4b5fd;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+table tbody td a:hover {
+    color: #a78bfa;
+    text-decoration: underline;
+}
+
+table tbody input[type="checkbox"] {
+    accent-color: #7c4dff;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
 .invisivel {
     display: none;
 }
 
-.visivel {
-    display: inline;
+#acoesAutenticadas {
+    display: flex;
+    gap: 0.75rem;
 }
 
-.mesmaLinha {
-    display: inline;
+#acoesAutenticadas input[type="button"] {
+    padding: 0.7rem 1.6rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#insere {
+    background-color: #7c4dff;
+    color: #ffffff;
+}
+
+#insere:hover {
+    background-color: #6a3de8;
+}
+
+#remove {
+    background-color: #252540;
+    color: #e0e0e0;
+    border: 1px solid #3a3a5c !important;
+}
+
+#remove:hover {
+    background-color: #2e2e55;
+}
+
+#acoesAutenticadas input[type="button"]:active {
+    transform: scale(0.98);
 }
