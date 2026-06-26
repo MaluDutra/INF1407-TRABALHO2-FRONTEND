@@ -57,7 +57,7 @@ const logout = (evento: MouseEvent) => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
 
-    const homeUrl = '/?logout=' + Date.now();
+    const homeUrl = './?logout=' + Date.now();
     if (window.top && window.top !== window) {
         window.top.location.href = homeUrl;
     } else {

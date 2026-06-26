@@ -39,7 +39,7 @@ onload = () => {
                 messageDiv.textContent = 'Usuário criado com sucesso. Redirecionando para login...';
 
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = './accounts/login.html';
                 }, 2500);
                 return;
             }
