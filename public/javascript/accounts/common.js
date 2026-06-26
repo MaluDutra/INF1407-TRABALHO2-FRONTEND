@@ -1,4 +1,11 @@
 import { backendAddress } from '../constantes.js';
+/**
+ * Adiciona ícones de olho a campos de senha para alternar visibilidade.
+ *
+ * Para cada elemento com a classe `.password-container`, o script procura
+ * um campo de senha e um ícone de alternância. Se ambos existirem, o ícone
+ * passa a alternar entre `password` e `text` ao ser clicado.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     // Para cada campo password, adiciona um ícone de olho para mostrar/ocultar a senha
     // cria um vetor de containers, cada um contendo um campo de senha e seu respectivo ícone de olho
@@ -24,10 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 /**
- * Função para decodificar um token JWT e extrair seu payload.
+ * Decodifica o payload de um token JWT sem verificar a assinatura.
  *
- * @param token token a ser decodificado
- * @returns retorna o token decodificado
+ * @param token token JWT completo no formato header.payload.signature
+ * @returns objeto JSON contendo os dados do payload
  */
 const decodeJWT = (token) => {
     const payload = token.split('.')[1];
@@ -39,10 +46,10 @@ const decodeJWT = (token) => {
     return JSON.parse(decodedPayload);
 };
 /**
- * Verifica se um token de acesso JWT expirou,
- * comparando a data de expiração do token com a data atual.
- * @param token token cuja validade deve ser verificada
- * @returns verdadeiro se o token expirou, falso, caso contrário
+ * Verifica se um token JWT expirou com base no campo "exp" do payload.
+ *
+ * @param token token JWT a ser verificado
+ * @returns true se expirado, false caso ainda seja válido
  */
 const isAccessTokenExpired = (token) => {
     const decoded = decodeJWT(token);
@@ -50,10 +57,8 @@ const isAccessTokenExpired = (token) => {
     return decoded.exp < now;
 };
 /**
- * Função para atualizar o token de acesso usando o token de refresh.
- * Se o token de refresh for inválido ou expirado, ambos os tokens são removidos do localStorage.
- *
- * @returns nada
+ * Atualiza o token de acesso usando o refresh token armazenado no localStorage.
+ * Se a atualização falhar, remove ambos os tokens do armazenamento.
  */
 const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -84,15 +89,12 @@ const refreshAccessToken = async () => {
     }
 };
 /**
- * Função para fazer requisições HTTP autenticadas usando o token de acesso.
- * Antes de fazer a requisição, verifica se o token de acesso expirou.
- * Se o token de acesso expirou, tenta atualizar o token usando o token de refresh.
- * Se a atualização do token for bem-sucedida, a requisição é feita com o novo token de acesso.
- * Se a atualização do token falhar, a requisição é feita sem o token de acesso.
+ * Executa requisições HTTP autenticadas, injetando o token de acesso no cabeçalho.
+ * Se o token estiver expirado, tenta atualizá-lo antes de enviar a requisição.
  *
- * @param url endereço do endpoint
- * @param options cabeçalhos da requisição http
- * @returns o resultado da requisição http feita usando fetch
+ * @param url endpoint da requisição
+ * @param options opções de fetch, como método e headers
+ * @returns objeto Response da requisição fetch
  */
 export const authFetch = async (url, options = {}) => {
     let accessToken = localStorage.getItem('access_token');

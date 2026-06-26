@@ -1,13 +1,10 @@
 /**
- * Função para fazer requisições HTTP autenticadas usando o token de acesso.
- * Antes de fazer a requisição, verifica se o token de acesso expirou.
- * Se o token de acesso expirou, tenta atualizar o token usando o token de refresh.
- * Se a atualização do token for bem-sucedida, a requisição é feita com o novo token de acesso.
- * Se a atualização do token falhar, a requisição é feita sem o token de acesso.
+ * Executa requisições HTTP autenticadas, injetando o token de acesso no cabeçalho.
+ * Se o token estiver expirado, tenta atualizá-lo antes de enviar a requisição.
  *
- * @param url endereço do endpoint
- * @param options cabeçalhos da requisição http
- * @returns o resultado da requisição http feita usando fetch
+ * @param url endpoint da requisição
+ * @param options opções de fetch, como método e headers
+ * @returns objeto Response da requisição fetch
  */
 export declare const authFetch: (url: string, options?: RequestInit) => Promise<Response>;
 //# sourceMappingURL=common.d.ts.map

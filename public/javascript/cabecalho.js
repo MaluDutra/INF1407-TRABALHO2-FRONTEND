@@ -1,15 +1,18 @@
 import { backendAddress } from './constantes.js';
 import { authFetch } from './accounts/common.js';
+/**
+ * Inicializa o cabeçalho da página após o carregamento.
+ * Registra o evento de logout e tenta identificar o usuário.
+ */
 addEventListener('load', async () => {
     var _a;
     (_a = document.getElementById('logout')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', logout);
     identifica();
 });
 /**
-* Função para identificar o usuário autenticado.
-* Exibe o nome do usuário autenticado
-* ou "visitante" se não houver um usuário autenticado.
-*/
+ * Verifica se o usuário está autenticado e atualiza o cabeçalho.
+ * Exibe o bloco de usuário logado ou não logado conforme o resultado.
+ */
 const identifica = async () => {
     var _a;
     const spanElement = document.getElementById('identificacao');
@@ -21,8 +24,8 @@ const identifica = async () => {
         method: 'GET',
         headers: headers
     });
-    let objDivlogged = document.getElementById('logged');
-    let objDivunlogged = document.getElementById('unlogged');
+    const objDivlogged = document.getElementById('logged');
+    const objDivunlogged = document.getElementById('unlogged');
     if (response.ok) {
         // token enviado no cabeçalho foi aceito pelo servidor
         const data = await response.json();
@@ -42,11 +45,10 @@ const identifica = async () => {
     }
 };
 /**
-* Função para realizar o logout do usuário.
-* Removendo os tokens do armazenamento local
-* e redireciona para a home page.
-* @param evento click de mouse
-*/
+ * Realiza logout removendo os tokens locais e redirecionando para a home.
+ * Usa window.top para garantir o redirecionamento correto em iframes.
+ * @param evento Evento de clique do botão de logout
+ */
 const logout = (evento) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');

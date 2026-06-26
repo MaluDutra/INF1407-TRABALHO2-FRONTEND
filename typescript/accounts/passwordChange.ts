@@ -1,6 +1,10 @@
 import { backendAddress } from '../constantes.js';
 import { authFetch } from './common.js';
 
+/**
+ * Inicializa o formulario de alteração de senha após o carregamento do DOM.
+ * Verifica se a nova senha e a confirmação coincidem antes de enviar a requisição.
+ */
 addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formulario") as HTMLFormElement;
     form.addEventListener("submit", async (event) => {
@@ -12,6 +16,7 @@ addEventListener("DOMContentLoaded", () => {
         const newPassword = (document.getElementById("new_password") as HTMLInputElement).value;
         const confirmPassword = (document.getElementById("confirm_password") as HTMLInputElement).value;
 
+        // Validação local: garante que a senha nova e a confirmação sejam iguais
         if (newPassword !== confirmPassword) {
             messageDiv.textContent = "A nova senha e a confirmação não coincidem.";
             return;
@@ -31,7 +36,7 @@ addEventListener("DOMContentLoaded", () => {
 
             if (response.ok) {
                 messageDiv.textContent = "Senha alterada com sucesso! Você será redirecionado para a página de login em breve.";
-                // Remove os tokens do localStorage para garantir que o usuário seja deslogado após a alteração da senha.
+                // Remove os tokens locais para efetivar o logout após mudança de senha
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
 
@@ -43,6 +48,7 @@ addEventListener("DOMContentLoaded", () => {
                 messageDiv.textContent = `Erro: ${errorData.message}`;
             }
         } catch (error) {
+            // Captura falhas de rede ou exceções geradas pela requisição
             messageDiv.textContent = `Erro de rede: ${error}`;
         }
     });

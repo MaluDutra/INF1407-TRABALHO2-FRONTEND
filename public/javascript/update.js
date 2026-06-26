@@ -1,32 +1,41 @@
 import { backendAddress } from './constantes.js';
 import { authFetch } from './accounts/common.js';
+/**
+ * Inicializa a página de edição de música.
+ *
+ * A função é executada quando a página carrega, garante que o usuário esteja
+ * autenticado, busca os dados da música, preenche o formulário e configura o
+ * envio da atualização.
+ */
 onload = async () => {
-    // visitante não pode acessar esta página
+    // Verifica se o usuário está autenticado antes de permitir o acesso
     const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     });
     if (!authResponse.ok) {
+        // Se não estiver autenticado, redireciona para a página de login
         window.location.href = 'accounts/login.html';
         return;
     }
-    // Parte 1: carregar dados do carro a ser editado e preencher o formulário
-    // Carrega os dados do carro a ser editado do banco de dados
-    // Preenche o formulário com os dados do carro
+    // Busca o parâmetro "id" na URL para saber qual música deve ser editada
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const idPlace = document.getElementById('id');
     const idSpan = document.getElementById('id-span');
     if (id) {
+        // Exibe o ID nos elementos correspondentes na página
         idPlace.value = id;
         if (idSpan) {
             idSpan.textContent = id;
         }
         try {
+            // Solicita os dados da música específica do backend
             const response = await fetch(backendAddress + 'SongList/umamusica/' + id + '/');
             if (response.ok) {
                 const musica = await response.json();
-                let campos = ['id', 'titulo', 'artista', 'album', 'ano'];
+                // Define os campos do formulário que serão preenchidos automaticamente
+                const campos = ['id', 'titulo', 'artista', 'album', 'ano'];
                 campos.forEach(campo => {
                     const elemento = document.getElementById(campo);
                     if (elemento) {
@@ -43,9 +52,10 @@ onload = async () => {
         }
     }
     else {
+        // Caso o ID não seja fornecido na URL, exibe uma mensagem de erro no campo
         idPlace.value = 'URL mal formada: ' + window.location;
     }
-    // Parte 2: configurar o evento de clique do botão "Atualizar"
+    // Configura o botão de atualizar para enviar o formulário ao backend
     document.getElementById('atualiza').addEventListener('click', async (e) => {
         e.preventDefault();
         const elements = document.getElementById('meuFormulario').elements;
@@ -53,7 +63,7 @@ onload = async () => {
         // Coleta os dados do formulário
         for (let i = 0; i < elements.length; i++) {
             const element = elements.item(i);
-            if (element.name) {
+            if (element && element.name) {
                 data[element.name] = element.value;
             }
         }

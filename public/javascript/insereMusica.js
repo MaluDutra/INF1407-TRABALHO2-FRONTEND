@@ -1,7 +1,11 @@
 import { backendAddress } from './constantes.js';
 import { authFetch } from './accounts/common.js';
+/**
+ * Inicializa a página de inserção de música.
+ * Verifica a autenticação e configura o envio do formulário.
+ */
 onload = async () => {
-    // visitante não pode acessar esta página
+    // visitante não pode acessar esta página sem login
     const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -13,11 +17,11 @@ onload = async () => {
     document.getElementById('insere').addEventListener('click', async (e) => {
         e.preventDefault();
         const elements = document.getElementById('meuFormulario').elements;
-        let data = {};
-        // Coleta os dados do formulário
+        const data = {};
+        // Coleta os dados do formulário em um objeto para enviar ao backend
         for (let i = 0; i < elements.length; i++) {
             const element = elements.item(i);
-            if (element.name) {
+            if (element && element.name) {
                 data[element.name] = element.value;
             }
         }

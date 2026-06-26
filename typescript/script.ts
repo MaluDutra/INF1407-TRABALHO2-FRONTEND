@@ -2,14 +2,18 @@
 import { backendAddress } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 
+/**
+ * Inicializa a página assim que o carregamento do conteúdo é concluído.
+ * Configura os botões de autenticação e carrega a lista de músicas.
+ */
 onload = async function () {
     await configuraBotoesAutenticacao();
     exibeListaDeMusicas();
-}
+};
 
 /**
- * Verifica se o usuário está autenticado e mostra ou esconde
- * os botões de inserir e remover de acordo com o estado de autenticação.
+ * Verifica se o usuário está autenticado e exibe os controles de
+ * inserção e remoção somente para usuários autenticados.
  */
 async function configuraBotoesAutenticacao() {
     const divAcoes = document.getElementById('acoesAutenticadas') as HTMLDivElement;
@@ -19,16 +23,22 @@ async function configuraBotoesAutenticacao() {
     });
 
     if (response.ok) {
-        // usuário autenticado: exibe os botões de ação
+        // Exibe os controles de ação apenas para usuários autenticados
         divAcoes.classList.remove('invisivel');
         divAcoes.classList.add('visivel');
         (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.remove('invisivel');
         (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.add('visivel');
-        (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => { location.href = 'insereMusica.html'; });
+        (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => {
+            location.href = 'insereMusica.html';
+        });
         (document.getElementById('remove') as HTMLButtonElement).addEventListener('click', apagaMusicas);
     }
 }
 
+/**
+ * Busca todas as músicas do backend e renderiza a tabela de resultados.
+ * Quando o usuário está autenticado, o título de cada música vira um link para edição.
+ */
 async function exibeListaDeMusicas() {
     const authResponse = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
@@ -47,7 +57,7 @@ async function exibeListaDeMusicas() {
         const campos = ['titulo', 'artista', 'album', 'ano'];
         const tbody = document.getElementById('idtbody') as HTMLTableSectionElement;
 
-        
+        // Remove linhas existentes antes de desenhar a tabela novamente
         while (tbody.firstChild) {
             tbody.removeChild(tbody.firstChild);
         }
@@ -87,6 +97,10 @@ async function exibeListaDeMusicas() {
     }
 }
 
+/**
+ * Exclui as músicas selecionadas na tabela e atualiza a lista em seguida.
+ * O backend recebe um array de IDs para remoção em massa.
+ */
 let apagaMusicas = async (evento: Event) => {
     evento.preventDefault();
     const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="id"]:checked');

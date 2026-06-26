@@ -1,5 +1,9 @@
 import { backendAddress } from '../constantes.js';
 
+/**
+ * Inicializa a página de redefinição de senha quando o carregamento é concluído.
+ * Registra os eventos dos botões e configura a troca de visibilidade dos campos.
+ */
 addEventListener("load", function () {
     (document.getElementById('eyeIconNovaSenha') as HTMLImageElement).addEventListener('click', trocaOlho);
     (document.getElementById('eyeIconConfirmarSenha') as HTMLImageElement).addEventListener('click', trocaOlho);
@@ -11,13 +15,14 @@ addEventListener("load", function () {
         const senha2 = (document.getElementById("confirmarSenha") as HTMLInputElement).value;
         const message = document.getElementById("message") as HTMLDivElement;
 
+        // Valida se as duas senhas digitadas são iguais
         if (senha !== senha2) {
             message.textContent = "As senhas não coincidem.";
             message.style.color = "red";
             return;
         }
 
-        let response = await fetch(backendAddress + 'gerenciamento/password-reset/', {
+        const response = await fetch(backendAddress + 'gerenciamento/password-reset/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,9 +48,9 @@ addEventListener("load", function () {
 });
 
 /**
- * Função para alternar a visibilidade da senha e trocar o ícone do olho
- * 
- * @param evento evento de mouse
+ * Alterna a visibilidade do campo de senha e atualiza o ícone de olho.
+ *
+ * @param evento Evento de clique no ícone de olho.
  */
 const trocaOlho = (evento: MouseEvent) => {
     const target = evento.target as HTMLImageElement;
@@ -54,9 +59,9 @@ const trocaOlho = (evento: MouseEvent) => {
 
     if (input.type === "password") {
         input.type = "text";
-        target.src = "../../img/eye-open.svg";
+        target.src = "../img/eye-open.svg";
     } else {
         input.type = "password";
-        target.src = "../../img/eye-off.svg";
+        target.src = "../img/eye-off.svg";
     }
 };

@@ -1,4 +1,8 @@
 import { backendAddress } from '../constantes.js';
+/**
+ * Inicializa o formulário de login quando a página é carregada.
+ * Captura as credenciais do usuário e tenta autenticar no backend.
+ */
 onload = () => {
     const form = document.getElementById("loginForm");
     form.addEventListener("submit", async (e) => {
@@ -8,6 +12,7 @@ onload = () => {
         const password = document.getElementById("password").value;
         try {
             const tokens = await login(username, password);
+            // Armazena os tokens JWT no localStorage para uso nas próximas requisições
             localStorage.setItem("access_token", tokens.access);
             localStorage.setItem("refresh_token", tokens.refresh);
             window.location.href = "/public/";
@@ -18,11 +23,12 @@ onload = () => {
     });
 };
 /**
-* Função para realizar o login do usuário, enviando as credenciais para o backend e recebendo os tokens JWT em resposta.
-* @param username username
-* @param password senha
-* @returns promise JSON
-*/
+ * Envia as credenciais ao backend para obter um par de tokens JWT.
+ *
+ * @param username nome de usuário informado no formulário
+ * @param password senha informada no formulário
+ * @returns Promise que resolve para o objeto de tokens JWT
+ */
 async function login(username, password) {
     const response = await fetch(backendAddress + "api/token/", {
         method: "POST",

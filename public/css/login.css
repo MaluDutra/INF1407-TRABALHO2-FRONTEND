@@ -22,3 +22,19 @@ button:hover {
     margin-top: 10px;
     color: red;
 }
+
+.password-container {
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    flex: 1;
+}
+
+.password-container .eye-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    cursor: pointer;
+}

@@ -1,29 +1,34 @@
 import { backendAddress } from './constantes.js';
 import { authFetch } from './accounts/common.js';
 
+/**
+ * Inicializa o cabeçalho da página após o carregamento.
+ * Registra o evento de logout e tenta identificar o usuário.
+ */
 addEventListener('load', async () => {
     document.getElementById('logout')?.addEventListener('click', logout);
     identifica();
 });
 
 /**
-* Função para identificar o usuário autenticado.
-* Exibe o nome do usuário autenticado
-* ou "visitante" se não houver um usuário autenticado.
-*/
+ * Verifica se o usuário está autenticado e atualiza o cabeçalho.
+ * Exibe o bloco de usuário logado ou não logado conforme o resultado.
+ */
 const identifica = async () => {
     const spanElement = document.getElementById('identificacao') as HTMLSpanElement;
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-    }
+    };
+
     const response = await authFetch(backendAddress + 'gerenciamento/whoami/', {
         method: 'GET',
         headers: headers
     });
 
-    let objDivlogged = (document.getElementById('logged') as HTMLDivElement);
-    let objDivunlogged = (document.getElementById('unlogged') as HTMLDivElement);
+    const objDivlogged = document.getElementById('logged') as HTMLDivElement;
+    const objDivunlogged = document.getElementById('unlogged') as HTMLDivElement;
+
     if (response.ok) {
         // token enviado no cabeçalho foi aceito pelo servidor
         const data = await response.json();
@@ -40,14 +45,13 @@ const identifica = async () => {
         objDivunlogged.classList.add('visivel');
         spanElement.textContent = 'visitante';
     }
-}
+};
 
 /**
-* Função para realizar o logout do usuário.
-* Removendo os tokens do armazenamento local
-* e redireciona para a home page.
-* @param evento click de mouse
-*/
+ * Realiza logout removendo os tokens locais e redirecionando para a home.
+ * Usa window.top para garantir o redirecionamento correto em iframes.
+ * @param evento Evento de clique do botão de logout
+ */
 const logout = (evento: MouseEvent) => {
     evento.preventDefault();
     localStorage.removeItem('access_token');
@@ -59,4 +63,4 @@ const logout = (evento: MouseEvent) => {
     } else {
         window.location.href = homeUrl;
     }
-}
+};
