@@ -180,4 +180,3 @@ Na tela de login, clique em **Esqueci minha senha**. Informe seu email e um cód
 ## O que não funcionou
 
 - **Envio real de email de recuperação de senha em produção.** O backend hospedado no Render não tem SMTP configurado, então o email não chega. Como contorno, o código de recuperação é enviado pelo console no Render.
-- O **logout** aponta para `accounts/logout.html`, que não existe como arquivo. O comportamento correto (limpar tokens e redirecionar) é executado pelo handler de clique antes que o navegador siga o link, então o usuário não percebe — mas é uma pendência conhecida.
