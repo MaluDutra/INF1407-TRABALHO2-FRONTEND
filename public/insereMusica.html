@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir nova música</title>
+    <script src="javascript/insereMusica.js"></script>
+    <script type="module" src="javascript/insereMusica.js"></script>
+</head>
+
+<body>
+    <iframe src="cabecalho.html" frameborder="0" width="100%" height="50"></iframe>
+    <h1>Insere Música</h1>
+    <form id="meuFormulario">
+        <table>
+            <tbody>
+                <tr>
+                    <td align="right">Título:</td>
+                    <td><input type="text" name="titulo" id="titulo"></td>
+                </tr>
+                <tr>
+                    <td align="right">Artista:</td>
+                    <td><input type="text" name="artista" id="artista"></td>
+                </tr>
+                <tr>
+                    <td align="right">Álbum:</td>
+                    <td><input type="text" name="album" id="album"></td>
+                </tr>
+                <tr>
+                    <td align="right">Ano:</td>
+                    <td><input type="text" name="ano" id="ano"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="insere" name="insere" value="Insere">Insere</button>
+    </form>
+    <div id="mensagem"></div>
+</body>
+
+</html>
