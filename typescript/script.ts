@@ -22,6 +22,8 @@ async function configuraBotoesAutenticacao() {
         // usuário autenticado: exibe os botões de ação
         divAcoes.classList.remove('invisivel');
         divAcoes.classList.add('visivel');
+        (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.remove('invisivel');
+        (document.getElementById('colunaRemove') as HTMLTableCellElement).classList.add('visivel');
         (document.getElementById('insere') as HTMLButtonElement).addEventListener('click', () => { location.href = 'insereMusica.html'; });
         (document.getElementById('remove') as HTMLButtonElement).addEventListener('click', apagaMusicas);
     }
